@@ -2,7 +2,7 @@
 BifLib is a MATLAB library for generating Basic Image Features (BIFs) from images.
 
 ## Features
-Generate map of BIFs from a **greyscale** image using `bifs = mtBif(inputImage, blurWidth, flatnessThreshold)`
+Generate map of BIFs from a **greyscale** image using `bifs = mtBifs(inputImage, blurWidth, flatnessThreshold)`
 
 Display the map of BIFs using `mtBifShow(bifs)`
 
