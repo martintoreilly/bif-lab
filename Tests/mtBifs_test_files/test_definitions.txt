@@ -1,0 +1,93 @@
+% This is a test definition file for mtBif_test
+% Blank lines and comment lines are ignored.
+% Comment lines begin with %
+
+% ===========================
+% Test definition line format
+% ===========================
+% Each test definition line should be 4 comma-separated values as follows. Any 
+% additional fields will be silently ignored. Too few fields will cause the test
+% to fail with an error.
+% 1. Test image filename. Images should be 100x100 pixels. Each feature should 
+%    contain a single centralised test feature. Image filenames should not 
+%    contain spaces. Images should be stored in the same folder as this file.
+% 2. BIF blurWidth parameter (sigma)
+% 3. BIF flatnessThreshold parameter (gamma)
+% 4. Expected BIF class for central pixel(s) of image.
+
+% =================================
+% Flat BIF test set (class 1, pink)
+% =================================
+flat_lum=0.png,10,0.01,1
+flat_lum=255.png,10,0.01,1
+flat_lum=128.png,10,0.01,1
+flat_lum=64.png,10,0.01,1
+flat_lum=192.png,10,0.01,1
+
+% =====================================
+% Gradient BIF test set (class 2, grey)
+% =====================================
+gradient_lumMin=0_lumMax=255_theta=0.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=135.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=180.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=225.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=270.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=315.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=45.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=90.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=0.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=135.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=180.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=225.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=270.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=315.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=45.png,10,0.01,2
+gradient_lumMin=64_lumMax=192_theta=90.png,10,0.01,2
+
+% =======================================
+% Dark blob BIF test set (class 3, black)
+% =======================================
+darkBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,3
+darkBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,3
+
+% ========================================
+% Light blob BIF test set (class 4, white)
+% ========================================
+lightBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,4
+lightBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,4
+
+% ======================================
+% Dark line BIF test set (class 5, blue)
+% ======================================
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,5
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,5
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,5
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,5
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,5
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,5
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,5
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,5
+
+% =========================================
+% Light line BIF test set (class 6, yellow)
+% =========================================
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,6
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,6
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,6
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,6
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,6
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,6
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,6
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,6
+
+% ====================================
+% Saddle BIF test set (class 7, green)
+% ====================================
+saddle_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,7
+saddle_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,7
+saddle_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,7
+saddle_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,7
+saddle_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,7
+saddle_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,7
+saddle_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,7
+saddle_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,7
