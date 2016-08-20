@@ -6,6 +6,16 @@ Generate map of BIFs from a **greyscale** image using `bifs = mtBifs(inputImage,
 
 Display the map of BIFs using `mtBifShow(bifs)`
 
+Run tests to verify the output of mtBifs for canonical features for each BIF class using one of:
+
+`mtBifs_test(1);` to print a test report in the Matlab command window
+
+`[testOutcomes, testOutcomeDetails] = mtBifs_test(0);` to save the test outcomes 
+and outcome messages for further processing with no printed output.
+
+
+For further information on any of the above functions type: `help <functionName>` at the Matlab command line
+
 ## Introduction to BIFs
 BIFs are a classification of local image structure into seven different classes on the basis of approximate local symmetry. 
 The seven classes are:
