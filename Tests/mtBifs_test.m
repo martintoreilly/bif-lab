@@ -36,7 +36,7 @@ function [testOutcomes, testOutcomeDetails] = mtBifs_test(showTestOutcomes)
     testFileDir = fullfile(rootDir,'mtBifs_test_files');
     testDefinitionsFilename = 'test_definitions.txt';
     testDefinitionsFilePath = fullfile(testFileDir,testDefinitionsFilename);
-    recordFormat = '%s %d %d %d';
+    recordFormat = '%s %f %f %d';
     commentChar = '%';
     fieldDelimiter = ',';
     
@@ -129,8 +129,8 @@ function [testOutcome, testOutcomeDetail] = runTest(testImageFilename, ...
         testOutcomeDetail = ['FAIL:',testCaseId];
     end
     testOutcomeDetail = [testOutcomeDetail,...
-        '; Expected central BIF class: ', expectedBifClass,...
-        '; Actual central BIF class(es): ', centralPixelBifs(:)'];
+        '; Expected central BIF class: ', int2str(expectedBifClass),...
+        '; Actual central BIF class(es): ', mat2str(centralPixelBifs(:)')];
 end % runTest
 
 function [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
@@ -152,6 +152,6 @@ function [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
     centralPixelBifs = bifImage(ctrRows,ctrCols);
     % Check all central pixel(s) match expected BIF class
     numCentralPixels = numel(centralPixelBifs);
-    numMatchingCentralPixels = sum(centralPixelBifs == expectedBifClass);
+    numMatchingCentralPixels = sum(centralPixelBifs(:) == expectedBifClass);
     bifsMatch = (numMatchingCentralPixels == numCentralPixels);
 end
