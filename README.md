@@ -37,3 +37,6 @@ The seven classes are:
 For a detailed explanation of BIFs, see [Using Basic Image Features for Texture Classification](http://dx.doi.org/10.1007/s11263-009-0315-0) 
 by Mike Crosier and Lewis D. Griffin. If you don't have access to the published journal paper, see the free 
 [author version](http://discovery.ucl.ac.uk/74308/) from UCL's institutional repository.
+
+## Citation
+O'Reilly, Martin (2016): BifLib (v1.0). figshare. https://dx.doi.org/10.6084/m9.figshare.3749094.v1
