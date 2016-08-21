@@ -2,6 +2,14 @@
 A MATLAB library for efficiently generating Basic Image Features (BIFs) from images.
 
 ## Quick start
+### Install
+Type `mtInstallBifLab` at the Matlab command line to add BifLab folders to 
+Matlab path
+
+### Demo
+Type `mtDemoBifLab` at the Matlab command line to display demonstration images 
+and their associated BIFs
+
 ### Generate BIFs
 Generate BIFs from a **greyscale** image using `bifs = mtBifs(inputImage, blurWidth, flatnessThreshold)`
 

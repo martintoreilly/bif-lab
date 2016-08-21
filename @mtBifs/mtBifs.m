@@ -73,7 +73,13 @@ classdef mtBifs
             % Require inputImage is 2D matrix
             imSize = size(inputImage);
             if(length(imSize)~= 2)
-                error('Bifs:InputNot2dMatrix','inputImage must be a 2D matrix');
+                if(length(imSize)==3 && imSize(3) == 3)
+                    % Treat as RGB image
+                    inputImage = rgb2gray(inputImage);
+                else
+                    error('Bifs:InputNot2dMatrix',...
+                        'inputImage must be a 2D matrix');
+                end
             end
             % Rename input parameters to terms used in BIF papers.
             % Force numeric parameters to be doubles to avoid errors due to 
