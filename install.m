@@ -21,7 +21,6 @@ baseDir = pwd;
 addpath(baseDir);
 
 % Explicitly add subfolders to avoid adding hidden folders such as .git
-addpath(fullfile(baseDir, 'bifs'));
 addpath(fullfile(baseDir, 'filters'));
 addpath(fullfile(baseDir, 'tests'));
 addpath(fullfile(baseDir, 'utils'));
