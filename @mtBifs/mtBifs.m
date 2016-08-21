@@ -1,14 +1,48 @@
 classdef mtBifs
 %mtBifs
     properties (Access = public)
-        Class; % Class of maximally responsive BIF at each pixel in inputImage. 1 = flat (pink); 2 = gradient (grey); 3 = dark blob (black); 4 = light blob (white); 5 = dark line (blue); 6 = light line (yellow); 7 = saddle (green)
+        Class; % Class of maximally responsive BIF at each pixel in inputImage.  1 = flat (pink); 2 = gradient (grey); 3 = dark blob (black); 4 = light blob (white); 5 = dark line (blue); 6 = light line (yellow); 7 = saddle (green)
         Type; % BIF type: 1 = BIFs (class only)
     end
+    methods (Access = public, Static)
+        function colourMap = colourMap()
+            % Generates colour map for use when displaying BIFs
+            %
+            % OUTPUTS:
+            % colourMap: Follows the format of built-in Matlab colour maps. Row N+1 defines
+            %            the RGB colour to display for matrix elements with value N. Colours
+            %            as per the BIF journal papers from Crosier and Griffin with the
+            %            addition of mapping for value 0 in row 1. This is not a valid BIF
+            %            class but is required for a valid colour map.
+            %               0 = invalid (cyan)
+            %               1 = falt (pink)
+            %               2 = gradient (grey)
+            %               3 = dark blob (black)
+            %               4 = light blob (white)
+            %               5 = dark line (blue)
+            %               6 = light line (yellow)
+            %               7 = saddle (green)
+            % 
+            % USAGE: colourMap = mtBifs.colourMap()
+
+            % Set colours used for BIF colour maps
+            bifCyan = [0, 0.5, 0.5];
+            bifPink = [1, 0.7, 0.7];
+            bifGrey = [0.6, 0.6, 0.6];
+            bifBlack = [0, 0, 0];
+            bifWhite = [1, 1, 1];
+            bifBlue = [0.1, 0.1, 1];
+            bifYellow = [0.9, 0.9, 0]; 
+            bifGreen = [0, 1, 0];
+
+            colourMap = vertcat(bifCyan,bifPink,bifGrey,bifBlack,bifWhite,bifBlue,...
+                        bifYellow,bifGreen);
+ 
+        end
+    end
     methods (Access = public)
-        function obj = mtBifs(inputImage, blurWidth, flatnessThreshold, type)
-        %mtBifs(inputImage, blurWidth, flatnessThreshold, type)
-        % Generates a BIFs object showing the maxmally responding BIF class at 
-        % each pixel of the input image
+        function obj = mtBifs(inputImage, blurWidth, flatnessThreshold, type) 
+        % Creates a BIF object from a 2D greyscale image.
         %
         % INPUTS:
         % inputImage: 2D greyscale image for which to generate BIFs. Values can
@@ -59,6 +93,38 @@ classdef mtBifs
             %% Generate BIF classes
             obj.Class = obj.bifClassesFromFilterResponses(sigma, gamma, ...
                 L, Lx, Ly, Lxx, Lyy, Lxy);           
+        end
+        function imHandle = show(obj) 
+            % Display BIFs using same colour scheme as BIF journal papers.
+            % Elements with invalid BIF classes will be displayed as cyan.
+            % Pink: flat (class 1)
+            % Grey: gradient (class 2)
+            % Black: dark blob (class 3)
+            % White: light blob (class 4)
+            % Blue: dark line (class 5)
+            % Yellow: light line (class 6)
+            % Green: saddle (class 7)
+            % 
+            % INPUTS:
+            % bifs: BIF object
+            %
+            % OUTPUTS:
+            % imHandle: Handle to the figure in which the BIFs have been displayed
+            %
+            % USAGE: h = obj.show()
+
+            % Set BIF class colour map
+            bifMap = mtBifs.colourMap();
+
+            % Set all elements with invalid BIF classes to 0, as this has a defined clour
+            % mapping
+            minValidBifClass = 1;
+            maxValidBifClass = 7;
+            bifImage = obj.Class;
+            bifImage(bifImage<minValidBifClass | bifImage>maxValidBifClass) = 0;
+
+            % Show bif classes with colour map
+            imHandle = mtImShow(uint8(bifImage),bifMap);
         end
     end
     methods (Access = private)
