@@ -37,19 +37,19 @@ type `doc mtBifs` at the Matlab command line.
 BIFs are a classification of local image structure into seven different classes on the basis of approximate local symmetry. 
 The seven classes are:
 
-1 = _flat_ (pink)
+1 = _flat_ (pink). No orientation.
 
-2 = _gradient_ (grey)
+2 = _gradient_ (grey). Orientation is "up" luminance gradient from dark to light.
 
-3 = _dark blob_ (black)
+3 = _dark blob_ (black). No orientation.
 
-4 = _light blob_ (white)
+4 = _light blob_ (white). No orientation.
 
-5 = _dark line_ (blue)
+5 = _dark line_ (blue). Orientation is along dark ridge.
 
-6 = _light line_ (yellow)
+6 = _light line_ (yellow). Orientation is along light ridge.
 
-7 = _saddle_ (green)
+7 = _saddle_ (green). Orientation is along dark ridge.
 
 Gradient, line and saddle BIFs also have an associated orientation, which is also
 computed for these features. Note that for line and saddle BIFs, orientations
