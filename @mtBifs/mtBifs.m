@@ -93,7 +93,7 @@ classdef mtBifs
             [obj.Vx, obj.Vy] = obj.bifOrientationsFromFilterResponses(...
                 L, Lx, Ly, Lxx, Lyy, Lxy); 
         end
-        function imHandle = show(obj) 
+        function imHandle = show(obj, showOrientation) 
         % Display BIFs using same colour scheme as BIF journal papers.
         % Elements with invalid BIF classes will be displayed as cyan.
         % Pink: flat (class 1)
@@ -106,11 +106,13 @@ classdef mtBifs
         % 
         % INPUTS:
         % bifs: BIF object
+        % [showOrientation]: If TRUE, draw BIF orientation marks. Optional
+        %                    (default is FALSE).
         %
         % OUTPUTS:
         % imHandle: Handle to the figure in which the BIFs have been displayed
         %
-        % USAGE: imHandle = obj.show()
+        % USAGE: imHandle = obj.show(showOrientation)
 
             % Set BIF class colour map
             bifMap = mtBifs.colourMap();
@@ -119,13 +121,29 @@ classdef mtBifs
             % mapping
             minValidBifClass = 1;
             maxValidBifClass = 7;
-            bifImage = obj.Class;
-            bifImage(bifImage<minValidBifClass | bifImage>maxValidBifClass) = 0;
+            bifClasses = obj.Class;
+            bifClasses(bifClasses<minValidBifClass | bifClasses>maxValidBifClass) = 0;
 
             % Show bif classes with colour map
-            imHandle = mtImShow(uint8(bifImage),bifMap);
-        end
-        
+            bifImage = ind2rgb(uint8(bifClasses), bifMap);
+            imHandle = mtImShow(bifImage);
+            
+            % Add direction marks if requested
+            if(nargin < 2)
+                showOrientation = false;
+            end
+            if(showOrientation)
+                [numRows, numCols] = size(obj.Class);
+                scale = 0.6;
+                lineWidth = 2;
+                for r = 1:numRows
+                    for c = 1:numCols
+                            mtBifs.drawBifDir2d(c,r,scale,scale,lineWidth,...
+                                obj.Class(r,c),obj.Vx(r,c),obj.Vy(r,c));
+                    end
+                end 
+            end            
+        end        
         function bifSnippet = getSnippet(obj, rows, cols)
         % Creates new BIF object with BIF data for specified rows and columns
         % 
@@ -197,6 +215,41 @@ classdef mtBifs
             % Get maximum BIF score at each pixel (index in third dimension 
             % corresponds to integer code for BIF class)
             [~, bifClasses] = max(jetScore,[],3);
+        end
+        function drawBifDir2d(x, y, xScale, yScale, lineWidth, ...
+                bifClass, vx, vy)
+        % Draw BIF orientation marks
+            switch bifClass
+                case {0,1,3,4}
+                    % Do nothing. No direction associated with these bif classes
+                otherwise
+                    X1 = [x-(xScale*0.5)*vx,x+(xScale*0.5)*vx];
+                    Y1 = [y-(yScale*0.5)*vy,y+(yScale*0.5)*vy];
+                    switch bifClass
+                        case 2
+                            X1 = [x,x+(xScale*0.5)*vx];
+                            Y1 = [y,y+(yScale*0.5)*vy];
+                            col1 = 'w';
+                            X2 = [x-(xScale*0.5)*vx,x];           
+                            Y2 = [y-(yScale*0.5)*vy,y];
+                            col2 = 'k';
+                            line(X1,Y1,'Color',col1,'LineWidth',lineWidth);
+                            line(X2,Y2,'Color',col2,'LineWidth',lineWidth);
+                        case 5
+                            col1 = 'k';
+                            line(X1,Y1,'Color',col1,'LineWidth',lineWidth);
+                        case 6
+                            col1 = 'w';
+                            line(X1,Y1,'Color',col1,'LineWidth',lineWidth);
+                        case 7
+                            col1 = 'k';
+                            X2 = [x-(xScale*0.5)*vy,x+(xScale*0.5)*vy];
+                            Y2 = [y+(yScale*0.5)*vx,y-(yScale*0.5)*vx];
+                            col2 = 'w';
+                            line(X1,Y1,'Color',col1,'LineWidth',lineWidth);
+                            line(X2,Y2,'Color',col2,'LineWidth',lineWidth);
+                    end
+            end
         end
     end
     %% Private instance methods
