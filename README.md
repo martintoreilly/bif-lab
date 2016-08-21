@@ -81,3 +81,8 @@ and outcome messages for further processing with no printed output.
 
 For more information on running the provided tests and defining additional test 
 cases of your own, type `doc mtBifs_test` at the Matlab command line.
+
+
+## Citation
+O'Reilly, Martin (2016): BifLib Matlab BIF library. figshare.
+[doi:10.6084/m9.figshare.3749217.v1](https://dx.doi.org/10.6084/m9.figshare.3749217.v1)
