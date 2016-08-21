@@ -11,7 +11,7 @@ Type `mtDemoBifLab` at the Matlab command line to display demonstration images
 and their associated BIFs
 
 ### Generate BIFs
-Generate BIFs from a **greyscale** image using `bifs = mtBifs(inputImage, blurWidth, flatnessThreshold)`
+Generate BIFs from an image using `bifs = mtBifs(inputImage, blurWidth, flatnessThreshold)`
 
 `blurWidth` (&sigma; in the reference papers) sets the scale of the features that the BIFs detect. It is the 
 standard deviation of the gaussian derivative filters used to 

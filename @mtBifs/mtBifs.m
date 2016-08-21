@@ -47,11 +47,11 @@ classdef mtBifs
     %% Public instance methods
     methods (Access = public)
         function obj = mtBifs(inputImage, blurWidth, flatnessThreshold) 
-        % Creates a BIF object from a 2D greyscale image.
+        % Creates a BIF object from a 2D image.
         %
         % INPUTS:
-        % inputImage: 2D greyscale image for which to generate BIFs. Values can
-        %             be in any range, but input must be 2D image.
+        % inputImage: 2D image for which to generate BIFs. Image can be greyscale
+        %             (colour images are converted to greyscale to generate BIFs).
         % blurWidth: Standard deviation of Gaussian used to generate BIF filters.
         % flatnessThreshold: Threshold for 'flat' bif class. Zeroth order BIF response
         %     is multiplied by this threshold factor. The higher the flatness threshold
