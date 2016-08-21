@@ -85,4 +85,4 @@ cases of your own, type `doc mtBifs_test` at the Matlab command line.
 
 ## Citation
 O'Reilly, Martin (2016): BifLib Matlab BIF library. figshare.
-[doi:10.6084/m9.figshare.3749217.v1](https://dx.doi.org/10.6084/m9.figshare.3749217.v1)
+[doi:10.6084/m9.figshare.3749217](https://dx.doi.org/10.6084/m9.figshare.3749217)
