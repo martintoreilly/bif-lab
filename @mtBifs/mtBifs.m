@@ -87,12 +87,12 @@ classdef mtBifs
             obj.Type = type;
 
             %% Generate filter responses
-            [L, Lx, Ly, Lxx, Lyy, Lxy] = obj.dtgFilterResponsesFromImage(...
+            [L, Lx, Ly, Lxx, Lyy, Lxy] = mtBifs.dtgFilterResponsesFromImage(...
                 inputImage, sigma);
 
-            %% Generate BIF classes
-            obj.Class = obj.bifClassesFromFilterResponses(sigma, gamma, ...
-                L, Lx, Ly, Lxx, Lyy, Lxy);           
+            %% Generate and set BIF classes
+            obj.Class = mtBifs.bifClassesFromFilterResponses(sigma, gamma, ...
+                L, Lx, Ly, Lxx, Lyy, Lxy); 
         end
         function imHandle = show(obj) 
             % Display BIFs using same colour scheme as BIF journal papers.
@@ -127,9 +127,9 @@ classdef mtBifs
             imHandle = mtImShow(uint8(bifImage),bifMap);
         end
     end
-    methods (Access = private)
+    methods (Static, Access = private)
         function [L, Lx, Ly, Lxx, Lyy, Lxy] = dtgFilterResponsesFromImage(...
-                ~, inputImage, sigma)
+            inputImage, sigma)
             % Generate the 1D Gaussian Derivative filters used to calculate BIFs
             % s0 = zeroth order 1D filter
             % s1 = first-order 1D filter
@@ -152,7 +152,7 @@ classdef mtBifs
             % first-order in x and y
             Lxy = mtSeparableFilter2(s1,s1,inputImage,filterMode); 
         end
-        function bifClasses = bifClassesFromFilterResponses(~, sigma, gamma, ...
+        function bifClasses = bifClassesFromFilterResponses(sigma, gamma, ...
                 L, Lx, Ly, Lxx, Lyy, Lxy)
             numBifClasses = 7;
             [numYs,numXs] = size(L);
