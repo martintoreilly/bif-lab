@@ -114,14 +114,17 @@ function [testOutcome, testOutcomeDetail] = runTest(testImageFilename, ...
     
     % Load image and compute BIFs
     testImage = imread(testImageFilePath);
-    bifImage = mtBifs(testImage, blurWidth, flatnessThreshold);
+    bifs = mtBifs(testImage, blurWidth, flatnessThreshold,1);
     
     % Check central BIFs match expected class
     [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
-        bifImage, expectedBifClass);
+        bifs.Class, expectedBifClass);
+    % Check BIF type is as expected
+    expectedBifType = 1;
+    bifTypeMatch = (bifs.Type == expectedBifType);
     
     % Record test outcome
-    if(bifsMatch)
+    if(bifsMatch && bifTypeMatch)
         testOutcome = true;
         testOutcomeDetail = ['PASS:',testCaseId];
     else   
@@ -130,7 +133,9 @@ function [testOutcome, testOutcomeDetail] = runTest(testImageFilename, ...
     end
     testOutcomeDetail = [testOutcomeDetail,...
         '; Expected central BIF class: ', int2str(expectedBifClass),...
-        '; Actual central BIF class(es): ', mat2str(centralPixelBifs(:)')];
+        '; Actual central BIF class(es): ', mat2str(centralPixelBifs(:)'),...
+        '; Expected BIF type: ', int2str(expectedBifType),...
+        '; Actual BIF type: ', int2str(bifs.Type)];
 end % runTest
 
 function [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
