@@ -18,76 +18,76 @@
 % =================================
 % Flat BIF test set (class 1, pink)
 % =================================
-flat_lum=0.png,10,0.01,1
-flat_lum=255.png,10,0.01,1
-flat_lum=128.png,10,0.01,1
-flat_lum=64.png,10,0.01,1
-flat_lum=192.png,10,0.01,1
+flat_lum=0.png,10,0.01,1,0,0
+flat_lum=255.png,10,0.01,1,0,0
+flat_lum=128.png,10,0.01,1,0,0
+flat_lum=64.png,10,0.01,1,0,0
+flat_lum=192.png,10,0.01,1,0,0
 
 % =====================================
 % Gradient BIF test set (class 2, grey)
 % =====================================
-gradient_lumMin=0_lumMax=255_theta=0.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=135.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=180.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=225.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=270.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=315.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=45.png,10,0.01,2
-gradient_lumMin=0_lumMax=255_theta=90.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=0.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=135.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=180.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=225.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=270.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=315.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=45.png,10,0.01,2
-gradient_lumMin=64_lumMax=192_theta=90.png,10,0.01,2
+gradient_lumMin=0_lumMax=255_theta=0.png,10,0.01,2,1,0
+gradient_lumMin=0_lumMax=255_theta=135.png,10,0.01,2,-0.7071,0.7071
+gradient_lumMin=0_lumMax=255_theta=180.png,10,0.01,2,-1,0
+gradient_lumMin=0_lumMax=255_theta=225.png,10,0.01,2,-0.7071,-0.7071
+gradient_lumMin=0_lumMax=255_theta=270.png,10,0.01,2,0,-1
+gradient_lumMin=0_lumMax=255_theta=315.png,10,0.01,2,0.7071,-0.7071
+gradient_lumMin=0_lumMax=255_theta=45.png,10,0.01,2,0.7071,0.7071
+gradient_lumMin=0_lumMax=255_theta=90.png,10,0.01,2,0,1
+gradient_lumMin=64_lumMax=192_theta=0.png,10,0.01,2,1,0
+gradient_lumMin=64_lumMax=192_theta=135.png,10,0.01,2,-0.7071,0.7071
+gradient_lumMin=64_lumMax=192_theta=180.png,10,0.01,2,-1,0
+gradient_lumMin=64_lumMax=192_theta=225.png,10,0.01,2,-0.7071,-0.7071
+gradient_lumMin=64_lumMax=192_theta=270.png,10,0.01,2,0,-1
+gradient_lumMin=64_lumMax=192_theta=315.png,10,0.01,2,0.7071,-0.7071
+gradient_lumMin=64_lumMax=192_theta=45.png,10,0.01,2,0.7071,0.7071
+gradient_lumMin=64_lumMax=192_theta=90.png,10,0.01,2,0,1
 
 % =======================================
 % Dark blob BIF test set (class 3, black)
 % =======================================
-darkBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,3
-darkBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,3
+darkBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,3,0,0
+darkBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,3,0,0
 
 % ========================================
 % Light blob BIF test set (class 4, white)
 % ========================================
-lightBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,4
-lightBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,4
+lightBlob_sigma=10_lumMin=0_lumMax=255.png,10,0.01,4,0,0
+lightBlob_sigma=10_lumMin=64_lumMax=192.png,10,0.01,4,0,0
 
 % ======================================
 % Dark line BIF test set (class 5, blue)
 % ======================================
-darkLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,5
-darkLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,5
-darkLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,5
-darkLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,5
-darkLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,5
-darkLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,5
-darkLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,5
-darkLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,5
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,5,-1,0
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,5,-0.7071,0.7071
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,5,0.7071,0.7071
+darkLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,5,0,1
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,5,-1,0
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,5,-0.7071,0.7071
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,5,0.7071,0.7071
+darkLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,5,0,1
 
 % =========================================
 % Light line BIF test set (class 6, yellow)
 % =========================================
-lightLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,6
-lightLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,6
-lightLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,6
-lightLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,6
-lightLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,6
-lightLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,6
-lightLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,6
-lightLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,6
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,6,1,0
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,6,0.7071,-0.7071
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,6,0.7071,0.7071
+lightLine_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,6,0,1
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,6,1,0
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,6,0.7071,-0.7071
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,6,0.7071,0.7071
+lightLine_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,6,0,1
 
 % ====================================
 % Saddle BIF test set (class 7, green)
 % ====================================
-saddle_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,7
-saddle_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,7
-saddle_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,7
-saddle_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,7
-saddle_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,7
-saddle_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,7
-saddle_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,7
-saddle_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,7
+saddle_sigma=10_lumMin=0_lumMax=255_theta=0.png,10,0.01,7,-1,0
+saddle_sigma=10_lumMin=0_lumMax=255_theta=135.png,10,0.01,7,-0.7071,0.7071
+saddle_sigma=10_lumMin=0_lumMax=255_theta=45.png,10,0.01,7,0.7071,0.7071
+saddle_sigma=10_lumMin=0_lumMax=255_theta=90.png,10,0.01,7,0,1
+saddle_sigma=10_lumMin=64_lumMax=192_theta=0.png,10,0.01,7,-1,0
+saddle_sigma=10_lumMin=64_lumMax=192_theta=135.png,10,0.01,7,-0.7071,0.7071
+saddle_sigma=10_lumMin=64_lumMax=192_theta=45.png,10,0.01,7,0.7071,0.7071
+saddle_sigma=10_lumMin=64_lumMax=192_theta=90.png,10,0.01,7,0,1

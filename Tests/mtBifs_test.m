@@ -21,8 +21,11 @@ function [testOutcomes, testOutcomeDetails] = mtBifs_test(showTestOutcomes)
 % 3. BIF flatnessThreshold parameter (gamma)
 % 4. Expected BIF class for central pixel(s) of image.
 %
+% INPUTS:
+% showTestOutcomes: 0 = don't show; 1 = show passes and fails; 2 = show fails
+%                   only
+%
 % OUTPUTS:
-% --------
 % testOutcomes: Vector giving pass / fail outcome of each test (TRUE = pass).
 % testOutcomeDetails: Cell array with text giving more detail of outcome of 
 %                     each test.
@@ -36,7 +39,7 @@ function [testOutcomes, testOutcomeDetails] = mtBifs_test(showTestOutcomes)
     testFileDir = fullfile(rootDir,'mtBifs_test_files');
     testDefinitionsFilename = 'test_definitions.txt';
     testDefinitionsFilePath = fullfile(testFileDir,testDefinitionsFilename);
-    recordFormat = '%s %f %f %d';
+    recordFormat = '%s %f %f %d %f %f';
     commentChar = '%';
     fieldDelimiter = ',';
     
@@ -63,17 +66,22 @@ function [testOutcomes, testOutcomeDetails] = mtBifs_test(showTestOutcomes)
             fields = textscan(fileLine, recordFormat, 'delimiter', ...
                 fieldDelimiter);
             [testImageFilename, blurWidth, flatnessThreshold, ...
-                expectedBifClass] = extractTestParameters(fields, testFileDir);
+                expectedBifClass,expectedBifVx, expectedBifVy] ...
+                = extractTestParameters(fields, testFileDir);
             % Run test case
             [currentTestOutcome, currentTestOutcomeDetail] = runTest(...
                 testImageFilename, testFileDir, blurWidth,...
-                flatnessThreshold, expectedBifClass);
+                flatnessThreshold, expectedBifClass, expectedBifVx, ...
+                expectedBifVy);
             numTestCases = numTestCases + 1;
             % Log test case outcome
             testOutcomes = [testOutcomes, currentTestOutcome];
             testOutcomeDetails{numTestCases} = currentTestOutcomeDetail;
-            if(showTestOutcomes)
-                disp(currentTestOutcomeDetail);
+            if(showTestOutcomes>0)
+                if(showTestOutcomes==1 || ...
+                        (showTestOutcomes==2 && currentTestOutcome == 0))
+                    disp(currentTestOutcomeDetail);
+                end
             end
         end
         fileLine = fgetl(fileId);
@@ -82,10 +90,11 @@ function [testOutcomes, testOutcomeDetails] = mtBifs_test(showTestOutcomes)
 end % main function
 
 function [testImageFilename, blurWidth, flatnessThreshold, ...
-    expectedBifClass] = extractTestParameters(fields, rootDir)
+    expectedBifClass, expectedBifVx, expectedBifVy] ...
+    = extractTestParameters(fields, rootDir)
     
     numFields = size(fields,2);
-    expectedNumFields = 4;    
+    expectedNumFields = 6;    
     if(numFields ~= expectedNumFields)
         msgId = [mfilename,':InvalidTestDefinition'];
         msg = ['Line ',lineNum,' does not contain a valid test ',...
@@ -98,33 +107,42 @@ function [testImageFilename, blurWidth, flatnessThreshold, ...
     blurWidth = fields{2};
     flatnessThreshold = fields{3};
     expectedBifClass = fields{4};
+    expectedBifVx = fields{5};
+    expectedBifVy = fields{6};
     
     % Validate fields are of correct type
     mtValidateFilePathParameter(testImageFilename, rootDir);
     mtValidateNumericParameter(blurWidth);
     mtValidateNumericParameter(flatnessThreshold);
     mtValidateNumericParameter(expectedBifClass);
+    mtValidateNumericParameter(expectedBifVx);
+    mtValidateNumericParameter(expectedBifVy);
 end
 
 function [testOutcome, testOutcomeDetail] = runTest(testImageFilename, ...
-    testImDir, blurWidth, flatnessThreshold, expectedBifClass)
+    testImDir, blurWidth, flatnessThreshold, expectedBifClass, ...
+    expectedBifVx, expectedBifVy)
     
     testCaseId = ['mtBifs_test:',testImageFilename];
     testImageFilePath = fullfile(testImDir, testImageFilename);
     
     % Load image and compute BIFs
     testImage = imread(testImageFilePath);
-    bifs = mtBifs(testImage, blurWidth, flatnessThreshold,1);
+    bifs = mtBifs(testImage, blurWidth, flatnessThreshold);
+    
+    % Get central BIFs
+    centralBifs = getCentralBifs(bifs);
     
     % Check central BIFs match expected class
-    [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
-        bifs.Class, expectedBifClass);
-    % Check BIF type is as expected
-    expectedBifType = 1;
-    bifTypeMatch = (bifs.Type == expectedBifType);
+    bifClassesMatch = checkAllBifsAreExpectedClass(...
+        centralBifs, expectedBifClass);
+    % Check central BIFs have expected orientation
+    maxDiff = 0.005;
+    bifOrientationsMatch = checkAllBifsAreExpectedOrientation(...
+        centralBifs, expectedBifVx, expectedBifVy, maxDiff);
     
     % Record test outcome
-    if(bifsMatch && bifTypeMatch)
+    if(bifClassesMatch && bifOrientationsMatch)
         testOutcome = true;
         testOutcomeDetail = ['PASS:',testCaseId];
     else   
@@ -132,16 +150,16 @@ function [testOutcome, testOutcomeDetail] = runTest(testImageFilename, ...
         testOutcomeDetail = ['FAIL:',testCaseId];
     end
     testOutcomeDetail = [testOutcomeDetail,...
-        '; Expected central BIF class: ', int2str(expectedBifClass),...
-        '; Actual central BIF class(es): ', mat2str(centralPixelBifs(:)'),...
-        '; Expected BIF type: ', int2str(expectedBifType),...
-        '; Actual BIF type: ', int2str(bifs.Type)];
+        '; Expected: c=', num2str(expectedBifClass),...
+        '; vx=', num2str(mtRound(expectedBifVx,maxDiff)),...
+        '; vy=', num2str(mtRound(expectedBifVy,maxDiff)),...
+        '; Actual: c=', mat2str(centralBifs.Class(:)'),...
+        '; vx=', mat2str(mtRound(centralBifs.Vx(:)',maxDiff))...
+        '; vy=', mat2str(mtRound(centralBifs.Vy(:)',maxDiff))];
 end % runTest
 
-function [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
-    bifImage, expectedBifClass)
-
-    [numRows, numCols] = size(bifImage);
+function centralBifs = getCentralBifs(bifs)
+    [numRows, numCols] = size(bifs.Class);
     % Get central row(s)
     if(mtIsOdd(numRows))
         ctrRows = ceil(numRows/2);
@@ -154,9 +172,28 @@ function [bifsMatch, centralPixelBifs] = checkCentralBifsAreExpectedBifClass(...
     else
         ctrCols = [(numCols/2),(numCols/2)+1];
     end
-    centralPixelBifs = bifImage(ctrRows,ctrCols);
-    % Check all central pixel(s) match expected BIF class
-    numCentralPixels = numel(centralPixelBifs);
-    numMatchingCentralPixels = sum(centralPixelBifs(:) == expectedBifClass);
-    bifsMatch = (numMatchingCentralPixels == numCentralPixels);
+    centralBifs = bifs.getSnippet(ctrRows, ctrCols);
+end
+
+function allBifClassesMatch = checkAllBifsAreExpectedClass(bifs, expectedClass)
+
+    % Check all BIF classes match expected class
+    if(any(bifs.Class(:)~=expectedClass))
+        allBifClassesMatch = false;
+    else
+        allBifClassesMatch = true;
+    end
+end
+
+function allBifOrientationsMatch = checkAllBifsAreExpectedOrientation(...
+    bifs, expectedVx, expectedVy, maxDiff)
+
+    % Check all BIF classes match expected orientation
+    vxDiff = abs(bifs.Vx(:) - expectedVx);
+    vyDiff = abs(bifs.Vy(:) - expectedVy);
+    if(any(vxDiff>maxDiff) || any(vyDiff>maxDiff))
+        allBifOrientationsMatch = false;
+    else
+        allBifOrientationsMatch = true;
+    end
 end
