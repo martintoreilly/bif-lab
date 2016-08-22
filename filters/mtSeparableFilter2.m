@@ -6,7 +6,8 @@ function output =  mtSeparableFilter2(xFilter, yFilter, input, mode)
 % INPUTS:
 % xFilter: 1D filter comprising the x-component of a separable 2D filter
 % yFilter: 1D filter comprising the y-component of a separable 2D filter
-% input: The 2D inputmatrix to be filtered
+%   - Filters must be of odd length (and therefore have a centre pixel)
+% input: The 2D input matrix to be filtered
 % mode: The filter mode. Options are:
 %   - 'cyclic': Returns an output the same size and the input. The input is 
 %     extended in x and y prior to filtering, with the extended boundaries
@@ -19,10 +20,19 @@ function output =  mtSeparableFilter2(xFilter, yFilter, input, mode)
 %     extended boundaries filled with zeros. The "shape" argument determines
 %     the size of the output. For more information type 'help filter2' at the 
 %     command line.
+%
+% OUTPUTS:
+% output: Filtered output (same size as input)
+% 
+% USAGE: output = mtSeparableFilter2(xFilter, yFilter, input, mode)
 
 % Check x and y filters are 1D vectors
 if length(xFilter)~=length(xFilter(:)) || length(yFilter)~=length(yFilter(:))
     error('x and y filters must be 1D vectors');
+end
+% check x and y filters have an odd length (therefore have a centre pixel)
+if ~isequal(mod([length(xFilter),length(yFilter)],2),[1 1])
+    error('x and y filters must be of odd length');
 end
 
 % Ensure x is a row vector and y is a column vector (we have already

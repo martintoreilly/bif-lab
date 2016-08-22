@@ -166,6 +166,47 @@ classdef mtBifs
             bifSnippet.Vx = bifSnippet.Vx(rows, cols);
             bifSnippet.Vy = bifSnippet.Vy(rows, cols);
         end
+        function bifHistogram = roiHistograms(obj, roiMask, type)
+        % Calculates histograms of BIFs within a sliding window region of
+        % interest (ROI).
+        % 
+        % INPUTS:
+        % roiMask: A 2D matrix of weights indicating how much each pixel in the
+        %          mask should contribute to the histogram (0 = not at all, 1 =
+        %          fully). roiMask pixels with weights between 0 and 1 will
+        %          partially contribute to the histogram (used to more
+        %          accurately represent ROIs where edges don't lie on pixel
+        %          boundaries.
+        % type: Type of BIF histogram to calculate
+        %       1 = BIF classes only. Bin indexes map directly to classes
+        %           Bin 1: flat (class 1)
+        %           Bin 2: gradient (class 2)
+        %           Bin 3: dark blob (class 3)
+        %           Bin 4: light blob (class 4)
+        %           Bin 5: dark line (class 5)
+        %           Bin 6: light line (class 6)
+        %           Bin 7: saddle (class 7)
+        %
+        % USAGE: obj.roiHistograms(roiMask, type)
+        
+            filterMode = 'padded';
+            switch(type)
+                case(1)
+                    numBins = 7;
+                    binBifClasses = 1:7;
+                    bifHistogram = zeros([size(obj.Class), numBins]);
+                    for(binIdx = 1:numBins)
+                        bifClassMask = obj.Class == binBifClasses(binIdx);
+                        histogramsForClass = mtFilter2d(...
+                            roiMask, bifClassMask, filterMode);
+                        bifHistogram(:,:,binIdx) = histogramsForClass;
+                    end
+                otherwise
+                    msgId = 'mtBifs.roiHistograms:InvalidHistogramType';
+                    msg = 'type must be 1 (BIF classes only)';
+                    error(msgId, msg);
+            end
+        end
     end
     %% Private static methods
     methods (Static, Access = private)
