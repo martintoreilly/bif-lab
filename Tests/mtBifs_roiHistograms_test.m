@@ -24,7 +24,7 @@ function [testOutcomes, testOutcomeDetails] = ...
     numTestCases = numTestCases + 1;
     % Set run-specifc paramters
     filename = 'all_features_sigma=5.png';
-    zoomCtrRow = 41; zoomCtrCol = 64; sigma = 5; gamma = 0.05
+    zoomCtrRow = 41; zoomCtrCol = 64; sigma = 5; gamma = 0.05;
     [currentTestOutcome, currentTestOutcomeDetail] = runTest(filename, ...
         sigma, gamma, zoomCtrRow, zoomCtrCol, showTestOutcomes);
     % Log test case outcome
@@ -53,7 +53,7 @@ function [testOutcome, testOutcomeDetail] = runTest(filename, sigma, gamma, ...
     % Calculate BIF class-only histograms (type 1) using code under tests
     bifHistsActual = bifs.roiHistograms(roiMask, 1);
     % Calculate BIF class-only histograms the slow, reliable way
-    disp(['Starting reliable BIF calcualtion for ',testCaseId,' (slow)']);
+    disp(['Starting reliable BIF calculation for ',testCaseId,' (slow)']);
     bifHistsExpected = reliableBifHistograms(bifs, roiMask, 1);
     % Compare actual and expected valid historgams
     nanReplacement = -1;
@@ -71,11 +71,17 @@ function [testOutcome, testOutcomeDetail] = runTest(filename, sigma, gamma, ...
     end
     testOutcomeDetail = [testOutcomeDetail,'; ', num2str(matchCount)...
         ' of ',num2str(totalHistBins),' histogram bins match.'];
-    % Display outcoem if requested
+    % Display outcome if requested
     if(showTestOutcomes>0)
         disp(testOutcomeDetail);
         if(showTestOutcomes>1)
             mtShowCaseBifs(testCaseId, im, bifs, roiRows, roiCols);
+            disp([' - Expected histogram for zoomed area: ',...
+                mat2str(reshape(bifHistsExpected(zoomCtrRow,zoomCtrCol,:),...
+                [7,1]))]);
+            disp([' - Actual histogram for zoomed area:   ',...
+                mat2str(reshape(bifHistsActual(zoomCtrRow,zoomCtrCol,:),...
+                [7,1]))]);
         end
     end
     
@@ -103,7 +109,7 @@ function bifHistograms = reliableBifHistograms(bifs, roiMask, type)
             bifHistograms = NaN([bifRows,bifCols,numBins]);
             binBifClasses = 1:7;
             for binIdx = 1:numBins
-                disp(['Calculating bin ',num2str(binIdx),' of ',...
+                disp([' - Calculating bin ',num2str(binIdx),' of ',...
                     num2str(numBins)]);
                 for rowIdx = roiHalfHeight+1:bifRows-roiHalfHeight
                     for colIdx = roiHalfWidth+1:bifCols-roiHalfWidth
