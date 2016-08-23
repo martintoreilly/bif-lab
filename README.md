@@ -78,6 +78,7 @@ Lillholm, M. & Griffin, L. D. (2008). Novel image feature alphabets for object r
 [Author version](http://www.cs.ucl.ac.uk/fileadmin/UCL-CS/images/CGVI/Lewis2.pdf) from UCL's CS department.
 
 ## Tests
+### BIF classes and orientations
 Run tests to verify the output of the library for canonical features for each BIF class using one of:
 
 `mtBifs_test(1);` to print a test report in the Matlab command window.
@@ -90,6 +91,17 @@ and outcome messages for further processing with no printed output.
 For more information on running the provided tests and defining additional test 
 cases of your own, type `doc mtBifs_test` at the Matlab command line.
 
+### BIF histograms
+Run a test to verify the fast BIF histogram generation code produces the same
+BIF histograms as an idiot-proof pixel-by-pixel calculation using one of:
+
+`mtBifs_roiHistograms_test(1);` to print a test report in the Matlab command window.
+
+`mtBifs_roiHistograms_test(2);` to print test report and also show test image, 
+BIFs and sample histogram for manual verification.
+
+`[testOutcomes, testOutcomeDetails] = mtBifs_roiHistograms_test(0);` to save the test outcomes 
+and outcome messages for further processing with no printed output.
 
 ## Citation
 O'Reilly, Martin (2016): BifLib Matlab BIF library. figshare.
